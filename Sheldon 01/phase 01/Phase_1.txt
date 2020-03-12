@@ -1,0 +1,33 @@
+First, run the sheldon1 file using chmod +x sheldon1 command and ./sheldon1 command. Then open it using gdb.
+ 
+Look for the functions inside sheldon1 using the command “info functions”. As we can see there are separate functions for each phase there.
+ 
+
+ 
+Then view the assembly code of the main function using disassemble main command. 
+  
+View the assembly code of the phase_1 using disassemble phase_1 command.
+ 
+
+
+In the first phase, there’s a simple string comparison in place. Very straight-forward. The first string being compared is our input. The second string is the password for phase_1.
+ 
+Password for phase 01: Public speaking is very easy.
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

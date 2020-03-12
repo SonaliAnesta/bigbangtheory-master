@@ -1,0 +1,51 @@
+View the assembly code of the phase_4 using disassemble phase_4 command.
+ 
+On line phase_4+16, the phase_4 function is pushing a fixed value stored at memory address 0x8049808 onto the stack right before a call to scanf is made. 
+As we have learned from the past phases, fixed values are almost always important. 
+Lo and behold, when we dump the contents of the memory address we get “%d”, which tells us that the answer to this phase should be a single integer.
+ 
+The second important feature of this code occurs phase_4+53. Input value, which is stored in eax, is getting input into this other function called func4. Right now func4 is a black box, so we will need to dig into it using si to figure out what it is doing to our integer.
+The last thing we need to consider is that, after <func4> gets called and returns our potentially altered input to eax, eax then gets compared to the hex value 37, which in decimal is 55. This means that, whatever our input is, to begin with, it needs to be turned into 55 by func4.
+Now dig into func4 to figure out what we need to input to generate 55.
+
+ 
+The next condition is that the func4 should return 0x37 
+   0x08048d1d <+61>: cmp    eax,0x37 
+   0x08048d20 <+64>: je     0x8048d27 <phase_4+71> 
+ 
+In func4, if argument <=1, the return value is 0x1: 
+   0x08048cab <+11>: cmp    ebx,0x1 
+   0x08048cae <+14>: jle    0x8048cd0 <func4+48> 
+   0x08048cd0 <+48>: mov    eax,0x1 
+
+Func4 : 
+func4(x): 
+        if x <= 1 : 
+                return 1 
+       else : 
+                y = func4(x-1) 
+                z = func4(x-2) 
+                return y + z 
+ 
+It's the Fibonacci function, implemented recursively. We quickly convert it to python code: 
+#!/usr/bin/python 
+
+def func4(x): 
+       if x <= 1 : 
+             return 1 
+      else : 
+             y = func4(x-1) 
+             z = func4(x-2) 
+             return y + z 
+  if __name__ == "__main__": 
+       print func4(9)
+
+We're expecting 0x37, which is 55 decimal, which is Fibonacci(9).
+
+Password for phase 04: 9
+
+ 
+
+
+
+

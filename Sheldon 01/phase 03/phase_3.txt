@@ -1,0 +1,36 @@
+View the assembly code of the phase_3 using disassemble phase_3 command.
+ 
+
+This password expects as:  “an integer”- “a character”- “an integer” 
+ 
+Input the passphrase as “1 a 7”. Results:
+ 
+The first condition to not explode the bomb: we have to fill all the 3 variables passed to sscanf. 
+   0x08048bbf <+39>: cmp    eax,0x2 
+   0x08048bc2 <+42>: jg     0x8048bc9 <phase_3+49> 
+   0x08048bc4 <+44>: call   0x80494fc <explode_bomb> 
+    
+Second condition: the first number must be <=7 
+   0x08048bc9 <+49>: cmp    DWORD PTR [ebp-0xc],0x7 
+   0x08048bcd <+53>: ja     0x8048c88 <phase_3+240> 
+   
+The last part of the function looks like a case structure. We have the following table of addresses: 
+   0x08048bd6 <+62>: jmp    DWORD PTR [eax*4+0x80497e8] 
+In eax, we have the first number, which we chose as 7. 
+ 
+In our case, when the first parameter was 7, we'll jump to 0x08048c76. 
+  (gdb) x /x $eax*4+0x80497e8 
+  0x8049804: 0x08048c76 
+
+  0x08048c76 <+222>: mov    bl,0x62    ……………… ascii letter 'b' 
+  0x08048c78 <+224>: cmp    DWORD PTR [ebp-0x4],0x20c  ………………524 in decimal 
+  0x08048c7f <+231>: je     0x8048c8f <phase_3+247> 
+  0x08048c81 <+233>: call   0x80494fc <explode_bomb> 
+  0x08048c86 <+238>: jmp    0x8048c8f <phase_3+247> 
+
+Password for phase 03: 7 b 524
+ 
+
+
+
+

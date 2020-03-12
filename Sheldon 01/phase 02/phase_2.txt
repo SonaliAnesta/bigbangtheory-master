@@ -1,0 +1,25 @@
+View the assembly code of the phase_2 using disassemble phase_2 command.
+ 
+
+Using the i r command to see the contents of registers.
+ 
+In assembly language basics a few things should jump out at you right away. Before anything else happens, a number is getting compared to 1, and the bomb is going off this number isn’t also 1. This means that the first integer in our secret phrase is undoubtedly 1.
+ 
+Once we’ve arrived at the comparison statement, we can use the i r command to see the contents of our registers. eax, which is the register to which our value is being compared, is equal to 2. Therefore, the second integer in our passphrase should be 2.
+The simplest way to solve this level completely is by continuing to step through the code, seeing what eax is equal to after each iteration. Next, you’ll find 6, then 24, then 120 followed by 720. The assembly code is implementing the following algorithm:
+
+v[0] = 1  
+v[i] = (i+i) * v[i-1]  
+
+Password for phase 02 : 1 2 6 24 120 720
+ 
+
+
+
+
+
+
+
+
+
+
